@@ -4,9 +4,9 @@ A shitty discord bot that I made for no reason other than I had time.
 
 # Dependencies
 
-Discord - pip3 install discord\n
-PyNacl - pip3 install PyNacl\n
-youtube_dl = pip3 install youtube_dl\n
+Discord - pip3 install discord
+PyNacl - pip3 install PyNacl
+youtube_dl - pip3 install youtube_dl
 
 
 # How to Run
