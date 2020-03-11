@@ -2,7 +2,7 @@ import discord
 import time
 from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions
-from discord.ext.commands import MemberConverter
+
 
 def get_user(message, user):
     try:
@@ -57,7 +57,6 @@ class Moderation(commands.Cog):
         except discord.Forbidden:
             await ctx.send("Are you attempting to change a users nickname that is higher than the bot?")
 
-
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount=5):
@@ -92,7 +91,6 @@ class Moderation(commands.Cog):
         except discord.Forbidden:
             await ctx.send("Could not ban the user. Are you attempting to ban someone higher than the bot?")
 
-
     @commands.command()
     @commands.has_permissions(ban_members=True)
     async def hackban(self, ctx, user_id: int, *, reason=None):
@@ -114,7 +112,6 @@ class Moderation(commands.Cog):
 
     @commands.command(hidden=True)
     async def quit(self, ctx):
-        """Shuts down the bot (Must be Rolen *yikes*)\nFormat: )quit"""
         owner = 612331900039725131
         if ctx.message.author.id == owner:
             print(ctx.message.author.id)
@@ -124,20 +121,25 @@ class Moderation(commands.Cog):
             print(ctx.message.author.id)
             await ctx.send("Damn you tried man.")
 
+
+    
+
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def mute(self, ctx, user: discord.Member, reason=None):
-        """Mutes a user (Must be an Administrator)\nFormat: )mute {User} {Reason}"""
+        """Mutes a user (Must be an Admin   istrator)\nFormat: )mute {User} {Reason}"""
         role = discord.utils.get(ctx.guild.roles, name='Muted')
         if user is None:
             return await ctx.send("You must specify a user!")
+        elif user == ctx.message.author:
+            return await ctx.send("You cannot mute yourself!")
         elif role in user.roles:
             await ctx.send("User is already muted.")
         else:
             try:
                 await mute(ctx, user, reason)
-            except MissingPermissions:
-                await ctx.send('You do not have the permissions to use that command!')
+            except discord.Forbidden:
+                await ctx.send('Are you attempting to mute someone higher than the bot?!')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -149,7 +151,7 @@ class Moderation(commands.Cog):
         try:
             await user.remove_roles(discord.utils.get(ctx.guild.roles, name='Muted'))
             await ctx.send(f'{user} has been unmuted!')
-        except MissingPermissions:
+        except discord.Forbidden:
             await ctx.send('You do not have the perms to do that command!')
 
     @commands.command()
