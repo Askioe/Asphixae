@@ -1,4 +1,5 @@
 import discord
+import string
 from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions
 
@@ -17,13 +18,15 @@ class Physics(commands.Cog):
             if "correct" in instance:
                 try:
                     await self.bot.get_channel(683561547460902913).send(instance)
-                except ValueError:
+                except:
                     await ctx.send("This isn't the right server.")
             elif "wrong" in instance:
                 try:
                     await self.bot.get_channel(683568448840007682).send(instance)
-                except ValueError:
+                except:
                     await ctx.send("This isn't the right server.")
+            elif not "correct" or "wrong" in instance:
+                await ctx.send("You did not properly format it.")
 
         await ctx.send("Successfully submitted answer(s).")
 
