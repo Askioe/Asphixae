@@ -34,7 +34,12 @@ class Misc(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print('Started bot.') 
-        await self.bot.change_presence(status=discord.Status.idle, activity=discord.Game('Prefix is ); Trying to do GUESS work'))
+        await self.bot.change_presence(status=discord.Status.idle, activity=discord.Game('Prefix is ). Trying to do GUESS work'))
+
+    @commands.command()
+    async def profile(self):
+        embed = discord.Embed(title='Profile')
+        
 
     @commands.command()
     @commands.has_permissions(add_reactions=True, embed_links=True)
