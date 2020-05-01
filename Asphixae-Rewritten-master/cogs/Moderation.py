@@ -49,6 +49,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(manage_nicknames=True)
     async def nick(self, ctx, user: discord.Member = None, *, nick):
         """Changes a user's nickname (Must have manage nickname perms)\nFormat: )nick {user} {nickname}"""
+        user = self.bot.get_user(user)
         if user is None:
             return await ctx.send("You must specify a user!")
         try:
@@ -70,7 +71,8 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         """Kicks a user (Must have kick perms)\nFormat: )kick {user} {reason}"""
-        if member is None:
+        user = self.bot.get_user(member)
+        if user is None:
             return await ctx.send("You must specify a user!")
         try:
             await member.kick(reason=reason)
@@ -82,7 +84,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, user, reason=None):
         """Bans a user (Must have ban perms)\nFormat: )ban {user} {reason}"""
-        user = get_user(ctx.message, user)
+        user = self.bot.get_user(user)
         if user is None:
             return await ctx.send("You must specify a user!")
         try:
@@ -122,16 +124,13 @@ class Moderation(commands.Cog):
             await ctx.send("Damn you tried man.")
 
 
-    
-
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def mute(self, ctx, user: discord.Member, reason=None):
-        """Mutes a user (Must be an Admin   istrator)\nFormat: )mute {User} {Reason}"""
+        """Mutes a user (Must be an Administrator)\nFormat: )mute {User} {Reason}"""
         role = discord.utils.get(ctx.guild.roles, name='Muted')
-        if user is None:
-            return await ctx.send("You must specify a user!")
-        elif user == ctx.message.author:
+        user = self.bot.get_user(user)
+        if user == ctx.message.author:
             return await ctx.send("You cannot mute yourself!")
         elif role in user.roles:
             await ctx.send("User is already muted.")
@@ -145,6 +144,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def unmute(self, ctx, user: discord.Member):
         """Unmute a user (Must be an Administrator)\nFormat: )unmute {User}"""
+        user = self.bot.get_user(user)
         if user is None:
             return await ctx.send("You must specify a user!")
         role = discord.utils.get(ctx.guild.roles, name='Muted')
@@ -158,6 +158,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def block(self, ctx, user: discord.Member):
         """Blocks a user from the current chat (Must be an Administrator)\nFormat: )block {user}"""
+        user = self.bot.get_user(user)
         if user is None:
             return await ctx.send("You must specify a user!")
         await ctx.channel.set_permissions(user, send_messages=False)
@@ -167,6 +168,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def unblock(self, ctx, user: discord.Member):
         """Unblocks a user from the current chat (Must be an Administrator)\nFormat: )unblock {user}"""
+        member = self.bot.get_user(user)
         if user is None:
             return await ctx.send("You must specify a user!")
         await ctx.channel.set_permissions(user, send_messages=True)
