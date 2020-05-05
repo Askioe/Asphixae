@@ -28,19 +28,16 @@ async def mute(ctx, user, reason):
     if role in user.roles:
         await ctx.send("User is already muted.")
     elif role is None:
-        try:
-            muted = await ctx.guild.create_role(name="Muted", reason="To use for muting")
-            for channel in ctx.guild.channels:  # removes permission to view and send in the channels
-                await channel.set_permissions(muted, send_messages=False,
+        muted = await ctx.guild.create_role(name="Muted", reason="To use for muting")
+        for channel in ctx.guild.channels:  # removes permission to view and send in the channels
+            await channel.set_permissions(muted, send_messages=False,
                                               read_message_history=True,
                                               read_messages=True)
-        except discord.Forbidden:
-            return await ctx.send("I have no permissions to make a muted role")  # self-explainatory
-        await user.add_roles(muted)
-        await ctx.send(f"{user} has been muted for {reason}!")
+            await user.add_roles(muted)
+            await ctx.send(f"{user.mention} has been muted for {reason}!")
     else:
         await user.add_roles(role)  # adds newly created muted role
-        await ctx.send(f"{user} has been muted for {reason}")
+        await ctx.send(f"{user.mention} has been muted for {reason}")
 
 
 class Moderation(commands.Cog):
@@ -124,18 +121,12 @@ class Moderation(commands.Cog):
         elif role in user.roles:
             await ctx.send("User is already muted.")
         else:
-            try:
-                await mute(ctx, user, reason)
-            except discord.Forbidden:
-                await ctx.send('Are you attempting to mute someone higher than the bot?!')
+            await mute(ctx, user, reason)
 
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def unmute(self, ctx, user: discord.Member):
         """Unmute a user (Must be an Administrator)\nFormat: )unmute {User}"""
-        user = self.bot.get_user(user)
-        if user is None:
-            return await ctx.send("You must specify a user!")
         role = discord.utils.get(ctx.guild.roles, name='Muted')
         try:
             await user.remove_roles(discord.utils.get(ctx.guild.roles, name='Muted'))
