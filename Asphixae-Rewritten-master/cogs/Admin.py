@@ -2,7 +2,7 @@ import discord
 import random
 from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions
-
+import time
 
 #    @commands.command(hidden=True):
 #    async def initx12(self, ctx):
