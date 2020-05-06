@@ -166,7 +166,7 @@ class Moderation(commands.Cog):
                     await member.ban(reason="Protocol initx10!")
                     print(f"Banned {member} using Protocol initx10!")
                 except:
-                    print("Bot does not have sufficient perms to ban this user!")
+                    print(f"Bot does not have sufficient perms to ban {member}!")
                     pass
         elif ctx.message.author is not owner:
             print(f"{ctx.message.author} attempted to initiate initx10 without being administrator.")
