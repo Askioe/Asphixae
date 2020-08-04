@@ -10,10 +10,6 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def ball(self, ctx):
-        """Something for ball kek\nFormat: )ball"""
-        await ctx.send('Do the mistress thing :3')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -27,6 +23,7 @@ class Fun(commands.Cog):
         sides = ["Heads", "Tails"]
         choice = random.choice(sides)
         await ctx.send(choice)
+
 
 
 def setup(bot):

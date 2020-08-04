@@ -27,5 +27,7 @@ class Lockdown(commands.Cog):
         await ctx.send('Channel is unlocked.')
         await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
 
+
+    
 def setup(bot):
     bot.add_cog(Lockdown(bot))
