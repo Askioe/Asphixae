@@ -1,5 +1,6 @@
 # Asphixae
 ![906873](https://user-images.githubusercontent.com/58087709/102176189-c4cf6300-3e55-11eb-9331-1c0895b9a736.jpg)
+![wetakethose](https://user-images.githubusercontent.com/58087709/102179284-ba17cc80-3e5b-11eb-9c83-2585c273f064.png)
 
 A discord bot that I spent too much time on rather than putting that time and effort into school.
 
