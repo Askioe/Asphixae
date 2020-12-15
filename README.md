@@ -1,5 +1,6 @@
 # Asphixae
-[ShitBucket](https://i.imgur.com/4sI9mzU.jpeg)
+![906873](https://user-images.githubusercontent.com/58087709/102176189-c4cf6300-3e55-11eb-9331-1c0895b9a736.jpg)
+
 A discord bot that I spent too much time on rather than putting that time and effort into school.
 
 
