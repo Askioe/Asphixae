@@ -17,4 +17,4 @@ Replace the key in bot.py and go to command prompt. Then run python3 bot.py once
 
 # Final Words
 
-I wanna die this shit is stupid
+I genuinely would not clone this repository as it has terrible variable names, redefinitions, useless functions, useless imports, duplicated variables, hacky methods to return a value that has long been implemented as a part of discord.py or discord.js for that matter. It is originally not meant to be cloned for other uses but hey, atleast it worked for me.
