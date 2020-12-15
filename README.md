@@ -1,6 +1,7 @@
 # Asphixae
+[ShitBucket](https://i.imgur.com/4sI9mzU.jpeg)
+A discord bot that I spent too much time on rather than putting that time and effort into school.
 
-A shitty discord bot that I made for no reason other than I had time.
 
 # Dependencies
 
